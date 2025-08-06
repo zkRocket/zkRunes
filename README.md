@@ -265,7 +265,8 @@ operation    type       tokenAddress     user-specified data
 
 ## 操作流程
 ### Deploy
-![Uploading image.png…]()
+<img width="704" height="556" alt="image" src="https://github.com/user-attachments/assets/d8d2307b-3deb-4e8d-aab6-2c4772144673" />
+
 
 
 ### Mint
