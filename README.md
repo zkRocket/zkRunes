@@ -15,7 +15,7 @@
 
 - ERC20Capped
 - ERC721Capped
-- 用户自定义合约地址的 Token，`ZKRunes` 合约要有铸造权限。
+- 用户自定义合约地址的Token，`ZKRunes` 要有权限执操作。
 
 ---
 
@@ -116,8 +116,8 @@ len:       1           1           (见下面)
 | operation        | 操作码（2）      | 1              |
 | type             | 类型码（3）      | 1              |
 | tokenAddress     | 合约地址         | 20             |
-| to               | 目标地址         | 20             |
-| amount           | Mint 数量        | 32             |
+| userSpecifiedData | 用户数据        | xx            |
+
 
 ---
 
@@ -152,9 +152,7 @@ len:       1           1           (见下面)
 | operation        | 操作码（3）      | 1              |
 | type             | 类型码（3）      | 1              |
 | tokenAddress     | 合约地址         | 20             |
-| to               | 目标地址         | 20             |
-| amount           | 转账数量         | 32             |
-| signature        | 签名             | 64             |
+| userSpecifiedData | 用户数据        | xx             |
 
 ---
 
@@ -187,8 +185,7 @@ len:       1           1           (见下面)
 | operation        | 操作码（4）      | 1              |
 | type             | 类型码（3）      | 1              |
 | tokenAddress     | 合约地址         | 20             |
-| amount           | 销毁数量         | 32             |
-| signature        | 签名             | 64             |
+| userSpecifiedData | 用户数据        | xx             |
 
 
 ## 操作流程
