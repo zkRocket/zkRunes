@@ -73,6 +73,8 @@ len:       1           1           (见下面)
 | name             | Token 名称     | 8              |
 | symbol           | Token 符号     | 4              |
 | totalSupply      | 总发行量       | 16             |
+| urlLength        | url的长度       | 2             |
+| url         | url        | url的长度             |
 
 #### ▶ 用户自定义地址 Token
 
