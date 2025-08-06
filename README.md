@@ -189,3 +189,16 @@ len:       1           1           (见下面)
 
 
 ## 操作流程
+### Deploy
+<img width="822" height="640" alt="image" src="https://github.com/user-attachments/assets/d7ad01cc-fc16-40fa-a94c-39f194b33f3a" />
+
+### Mint
+
+<img width="508" height="698" alt="image" src="https://github.com/user-attachments/assets/c501a224-517d-4f18-aa68-fcc2b52f40b0" />
+
+### Transfer
+
+### Burn
+
+
+
