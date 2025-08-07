@@ -233,13 +233,13 @@ operation    type       tokenAddress    user-specified data
 
 
 transfer a ERC20:
-operation    type     name      to             amount    signature
-  (3)          (1)     8bytes    20 bytes       16 bytes    64 bytes
+operation    type     name     nonce   to             amount    signature
+  (3)          (1)     8bytes    ??   20 bytes       16 bytes    64 bytes
 
 
 transfer a ERC721:
-operation    type       name       to            tokenId    signature
-  (3)          (2)       8bytes    20 bytes       16 bytes    64 bytes
+operation    type       name   nonce    to            tokenId    signature
+  (3)          (2)       8bytes  ??  20 bytes       16 bytes    64 bytes
 
 
 transfer a User Specified:
