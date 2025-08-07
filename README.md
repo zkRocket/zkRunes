@@ -19,6 +19,14 @@
 
 ---
 
+## Token 类型说明
+
+| 类型名称           | 类型代码 (type) |
+|--------------------|------------------|
+| ERC20Capped        | 1                |
+| ERC721Capped       | 2                |
+| 用户自定义地址 Token | 3              |
+
 ## 操作类型说明
 
 | 操作名称 | 操作代码 (operation) |
@@ -30,28 +38,20 @@
 
 ---
 
-## Token 类型说明
-
-| 类型名称           | 类型代码 (type) |
-|--------------------|------------------|
-| ERC20Capped        | 1                |
-| ERC721Capped       | 2                |
-| 用户自定义地址 Token | 3              |
-
----
-
-
 
 ## 操作(编码)说明
 
 ```
 对于 zkBRC20/zkBRC721 
-fields:   type   operation operation_specific_data
+fields:          type   operation  operation_specific_data
 len(value):       1           1           (见下面)
 
-对于user specified token 
-fields:        type       tokenAddress  needVerifySignature  nonce   user-specified data     signature
-len(value):     (3)          20             1                  8       xxbyte                  64
+对于deploy user specified token
+fields:     type    operation  tokenAddress
+len(value)   (3)       (1)       20
+
+fields:        type      operation   tokenAddress  needVerifySignature  nonce   user-specified data     signature
+len(value):     (3)         (!=1)         20             1                8       xxbyte                  64
 ```
 
 
