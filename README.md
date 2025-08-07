@@ -56,8 +56,7 @@ len(value):     (3)         (!=1)         20             1                8     
 ```
 
 
-```sh
-/* appData
+```
 deploy a zkBRC20 Capped:
  type  operation    len(name)   name   len(symbol)   symbol    totalSupply   decimal maxInEachMint
   (1)      (1)         1           xx      1            xx        8 bytes        1       1    
@@ -106,7 +105,6 @@ User Specified opeations:
 type      operation   tokenAddress  needVerifySignature  nonce   user-specified data     signature
 (3)         (!=1)         20             1                8       xxbyte                  64
 
-*/
 ```
 
 ## 操作流程
