@@ -50,6 +50,7 @@ len(value):       1           1           (见下面)
 fields:     type    operation  tokenAddress
 len(value)   (3)       (1)       20
 
+对于other operation for user specified token
 fields:        type      operation   tokenAddress  needVerifySignature  nonce   user-specified data     signature
 len(value):     (3)         (!=1)         20             1                8       xxbyte                  64
 ```
@@ -95,33 +96,23 @@ type   operation  len(name)   name      to        amount
 
 transfer a zkBRC20:
 type   operation  len(name)   name  nonce    to      amount  signature
- (1)       (3)      1          xx     8      20        16     
-
-operation    type     name     nonce   to             amount    signature
-  (3)          (1)     8bytes    ??   20 bytes       16 bytes    64 bytes
+ (1)       (3)      1          xx     8      20        16     64
 
 
 transfer a zkBRC721:
-operation    type       name   nonce    to            tokenId    signature
-  (3)          (2)       8bytes  ??  20 bytes       16 bytes    64 bytes
-
-
-transfer a User Specified:
-operation    type      tokenAddress    user-specified data 
-  (3)          (3)        20 bytes         xxx
+type   operation    len(name)  name   nonce   to      tokenId    signature
+ (2)    (3)          1          xx     8      20        16         64 
 
 
 burn a zkBRC20:
-operation    type     name      amount      signature
-  4          (1)     8bytes     16 bytes     64 bytes
+type   operation  len(name)   name  nonce     amount  signature
+ (1)       (4)      1          xx     8        16     64
 
 
 burn a zkBRC721:
-operation    type       name      tokenId      signature
-  4          (2)       8bytes     16 bytes     64 bytes
+type   operation  len(name)   name  nonce     tokenId  signature
+ (2)       (4)      1          xx     8        16       64
 
-
-address => nonce
 
 User Specified opeations:
 type       tokenAddress  needVerifySignature  nonce   user-specified data     signature
