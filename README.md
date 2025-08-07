@@ -115,9 +115,8 @@ type   operation  len(name)   name  nonce     tokenId  signature
 
 
 User Specified opeations:
-type       tokenAddress  needVerifySignature  nonce   user-specified data     signature
-(3)          20             1                  16       xxbyte                  64
-
+type      operation   tokenAddress  needVerifySignature  nonce   user-specified data     signature
+(3)         (!=1)         20             1                8       xxbyte                  64
 
 */
 ```
