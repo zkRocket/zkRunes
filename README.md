@@ -109,7 +109,30 @@ type      operation   tokenAddress  needVerifySignature  nonce   user-specified 
 
 ## 操作流程
 ### Deploy
-<img width="704" height="556" alt="image" src="https://github.com/user-attachments/assets/d8d2307b-3deb-4e8d-aab6-2c4772144673" />
+```mermaid
+sequenceDiagram
+    participant zkRocket
+    participant zkRunes
+    participant ERC20Factory
+ 
+    zkRocket ->> zkRunes: execute(addressA, adressB, userOptions, appData)
+    zkRunes->>zkRunes: type = appData[0]
+    zkRunes->>zkRunes: operations = appData[1]
+    alt operation == deploy
+        alt tokenType == ERC20
+            zkRunes->> ERC20Factory: tokenAddr = new ERC20(name, symbol, maxSupply, decimal)
+            zkRunes ->> zkRunes: erc20Tokens[name] = tokenAddr
+        
+        else tokenType == ERC721
+            zkRunes->> ERC721Factory: tokenAddr = new ERC721(name, symbol, maxSupply, url)
+            zkRunes ->> zkRunes: erc721Tokens[name]= tokenAddr
+
+        else tokenType == userDefined
+            zkRunes ->> zkRunes: userTokens[tokenAddr] = true
+        end
+    end
+```
+
 
 
 
