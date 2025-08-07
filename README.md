@@ -227,9 +227,6 @@ operation  type       name       to         amount
   (2)       (2)       8bytes   20bytes      1bytes
 
 
-mint a User Specified:
-operation    type       tokenAddress    user-specified data 
-(2)          (3)        20 bytes          xxx bytes
 
 
 transfer a ERC20:
@@ -262,6 +259,11 @@ operation    type       tokenAddress   nonce   user-specified data  signature
 4            (3)         20 bytes      xxbyte     xxx bytes          64
 
 address => nonce
+
+User Specified opeations:
+type       tokenAddress  needVerifySignature  nonce   user-specified data     signature
+(3)          20             1                  16       xxbyte                  64
+
 
 */
 ```
