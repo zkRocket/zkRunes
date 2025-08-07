@@ -42,192 +42,55 @@
 
 
 
-## 操作格式(编码)说明
+## 操作(编码)说明
 
 ```
-zkBRC20/zkBRC721 
+对于 zkBRC20/zkBRC721 
 fields:   type   operation operation_specific_data
-len:       1           1           (见下面)
+len(value):       1           1           (见下面)
+
+对于user specified token 
+fields:        type       tokenAddress  needVerifySignature  nonce   user-specified data     signature
+len(value):     (3)          20             1                  8       xxbyte                  64
 ```
 
-
-### ✅ Deploy
-
-#### ▶ ERC20Capped
-
-| 字段名           | 说明           | 长度（bytes） |
-|------------------|----------------|----------------|
-| operation        | 操作码（1）    | 1              |
-| type             | 类型码（1）    | 1              |
-| name             | Token 名称     | 8              |
-| symbol           | Token 符号     | 4              |
-| totalSupply      | 总发行量       | 16             |
-| decimals         | 精度           | 1              |
-| maxInEachMint    | 单次最大 Mint  | 1              |
-
-#### ▶ ERC721Capped
-
-| 字段名           | 说明           | 长度（bytes） |
-|------------------|----------------|----------------|
-| operation        | 操作码（1）    | 1              |
-| type             | 类型码（2）    | 1              |
-| name             | Token 名称     | 8              |
-| symbol           | Token 符号     | 4              |
-| totalSupply      | 总发行量       | 16             |
-| maxInEachMint    | 单次最大 Mint  | 1              |
-| urlLength        | url的长度       | 2             |
-| url         | url        | url的长度             |
-
-#### ▶ 用户自定义地址 Token
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（1）      | 1              |
-| type             | 类型码（3）      | 1              |
-| tokenAddress     | 合约地址         | 20             |
-
----
-
-### ✅ Mint
-
-#### ▶ ERC20Capped
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（2）      | 1              |
-| type             | 类型码（1）      | 1              |
-| name             | Token 名称       | 8             |
-| to               | 目标地址         | 20             |
-| amount           | Mint 数量        | 1             |
-
-#### ▶ ERC721Capped
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（2）      | 1              |
-| type             | 类型码（2）      | 1              |
-| name             | Token 名称       | 8              |
-| to               | 目标地址         | 20             |
-| amount           | Mint 数量        | 1              |
-
-#### ▶ 用户自定义地址 Token
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（2）      | 1              |
-| type             | 类型码（3）      | 1              |
-| tokenAddress     | 合约地址         | 20             |
-| userSpecifiedData | 用户数据        | xx            |
-
-
----
-
-### ✅ Transfer
-
-#### ▶ ERC20Capped
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（3）      | 1              |
-| type             | 类型码（1）      | 1              |
-| name             | Token 名称       | 8             |
-| to               | 目标地址         | 20             |
-| amount           | 转账数量         | 32             |
-| signature        | 签名             | 64             |
-
-#### ▶ ERC721Capped
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（3）      | 1              |
-| type             | 类型码（2）      | 1              |
-| name             | Token 名称       | 8              |
-| to               | 目标地址         | 20             |
-| tokenId          | Token ID         | 32             |
-| signature        | 签名             | 64             |
-
-#### ▶ 用户自定义地址 Token
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（3）      | 1              |
-| type             | 类型码（3）      | 1              |
-| tokenAddress     | 合约地址         | 20             |
-| userSpecifiedData | 用户数据        | xx             |
-
----
-
-### ✅ Burn
-
-#### ▶ ERC20Capped
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（4）      | 1              |
-| type             | 类型码（1）      | 1              |
-| name             | Token 名称       | 8              |
-| amount           | 销毁数量         | 32             |
-| signature        | 签名             | 64             |
-
-#### ▶ ERC721Capped
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（4）      | 1              |
-| type             | 类型码（2）      | 1              |
-| name             | Token 名称       | 8              |
-| tokenId          | Token ID         | 32             |
-| signature        | 签名             | 64             |
-
-#### ▶ 用户自定义地址 Token
-
-| 字段名           | 说明             | 长度（bytes） |
-|------------------|------------------|----------------|
-| operation        | 操作码（4）      | 1              |
-| type             | 类型码（3）      | 1              |
-| tokenAddress     | 合约地址         | 20             |
-| userSpecifiedData | 用户数据        | xx             |
 
 ```sh
 /* appData
-fields:               appData
-length(bytes):         operation    type
-                        1 byte     1 byte
+type:
+1 - ERC20Capped
+2 - ERC721Capped
+3 - User Specified
+
 operation:
 1- Deploy
 2- Mint
 3- Transfer
 4- Burn
 
-type:
-1 - ERC20Capped
-2 - ERC721Capped
-3 - User Specified
 
 deploy a zkBRC20 Capped:
-operation    type       len(name)   name     len(symbol)   symbol     decimal   maxInEachMint  totalSupply 
-  (1)          (1)       1         xx bytes    1         xx bytes      1 bytes    1 bytes        8 bytes 
+ type  operation    len(name)   name   len(symbol)   symbol     decimal     totalSupply  maxInEachMint
+  (1)      (1)         1           xx      1            xx          1           8            1    
 
 deploy a zkBRC721 Capped:
-operation    type       len(name)   name     len(symbol)   symbol     totalSupply    len(url)     url
-  (1)         (2)           1       xx        1           xx            8              2           xx
+ type    operation  len(name)   name   len(symbol)   symbol     decimal     totalSupply  maxInEachMint  len(url)     url
+  (2)      (1)       1           xx      1            xx          1           8            1              1          xx
 
 deploy a User Specified:
-operation    type        tokenAddress
-  (1)         (3)          20 bytes
+type    operation  tokenAddress
+ (3)       (1)       20
 
 
 mint:
 mint a zkBRC20:
-operation     type     name       to      amount
-  (2)         (1)     8bytes   20bytes    1bytes
+type   operation  len(name)   name      to      amount
+ (1)       (2)      1          xx       20       1
 
 
 mint a zkBRC721:
-operation  type       name       to         amount
-  (2)       (2)       8bytes   20bytes      1bytes
-
-
+type   operation  len(name)   name      to        amount
+ (2)       (2)      1          xx       20         1
 
 
 transfer a ERC20:
