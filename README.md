@@ -58,8 +58,8 @@ len(value):     (3)          20             1                  8       xxbyte   
 ```sh
 /* appData
 type:
-1 - ERC20Capped
-2 - ERC721Capped
+1 - zkBRC20Capped
+2 - zkBRC721Capped
 3 - User Specified
 
 operation:
@@ -70,12 +70,12 @@ operation:
 
 
 deploy a zkBRC20 Capped:
- type  operation    len(name)   name   len(symbol)   symbol     decimal     totalSupply  maxInEachMint
-  (1)      (1)         1           xx      1            xx          1           8            1    
+ type  operation    len(name)   name   len(symbol)   symbol    totalSupply   decimal maxInEachMint
+  (1)      (1)         1           xx      1            xx        8 bytes        1       1    
 
 deploy a zkBRC721 Capped:
- type    operation  len(name)   name   len(symbol)   symbol     decimal     totalSupply  maxInEachMint  len(url)     url
-  (2)      (1)       1           xx      1            xx          1           8            1              1          xx
+ type    operation  len(name)   name   len(symbol)   symbol    totalSupply  maxInEachMint   len(url)    url
+  (2)      (1)       1           xx      1            xx           8 bytes        1              1        xx
 
 deploy a User Specified:
 type    operation  tokenAddress
@@ -93,12 +93,15 @@ type   operation  len(name)   name      to        amount
  (2)       (2)      1          xx       20         1
 
 
-transfer a ERC20:
+transfer a zkBRC20:
+type   operation  len(name)   name  nonce    to      amount  signature
+ (1)       (3)      1          xx     8      20        16     
+
 operation    type     name     nonce   to             amount    signature
   (3)          (1)     8bytes    ??   20 bytes       16 bytes    64 bytes
 
 
-transfer a ERC721:
+transfer a zkBRC721:
 operation    type       name   nonce    to            tokenId    signature
   (3)          (2)       8bytes  ??  20 bytes       16 bytes    64 bytes
 
@@ -108,19 +111,15 @@ operation    type      tokenAddress    user-specified data
   (3)          (3)        20 bytes         xxx
 
 
-burn a ERC20:
+burn a zkBRC20:
 operation    type     name      amount      signature
   4          (1)     8bytes     16 bytes     64 bytes
 
 
-burn a ERC721:
+burn a zkBRC721:
 operation    type       name      tokenId      signature
   4          (2)       8bytes     16 bytes     64 bytes
 
-
-burn a User Specified:
-operation    type       tokenAddress   nonce   user-specified data  signature
-4            (3)         20 bytes      xxbyte     xxx bytes          64
 
 address => nonce
 
