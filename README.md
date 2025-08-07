@@ -45,7 +45,8 @@
 ## 操作格式(编码)说明
 
 ```
-fields:  operation  type  operation_specific_data
+zkBRC20/zkBRC721 
+fields:   type   operation operation_specific_data
 len:       1           1           (见下面)
 ```
 
