@@ -203,13 +203,13 @@ type:
 2 - ERC721Capped
 3 - User Specified
 
-deploy a ERC20 Capped:
-operation    type       name      symbol   totalSupply   decimal   maxInEachMint
-  (1)          (1)       8 bytes    4 bytes     16 bytes   1 bytes    1 bytes
+deploy a zkBRC20 Capped:
+operation    type       len(name)   name     len(symbol)   symbol     decimal   maxInEachMint  totalSupply 
+  (1)          (1)       1         xx bytes    1         xx bytes      1 bytes    1 bytes        8 bytes 
 
-deploy a ERC721 Capped:
-operation    type       name      symbol     totalSupply    urlLength    url
-  (1)         (2)      8 bytes    4 bytes     16 bytes     2 bytes       xx
+deploy a zkBRC721 Capped:
+operation    type       len(name)   name     len(symbol)   symbol     totalSupply    len(url)     url
+  (1)         (2)           1       xx        1           xx            8              2           xx
 
 deploy a User Specified:
 operation    type        tokenAddress
@@ -217,14 +217,14 @@ operation    type        tokenAddress
 
 
 mint:
-mint a ERC20:
+mint a zkBRC20:
 operation     type     name       to      amount
-  (2)          (1)    8bytes   20bytes    1bytes
+  (2)         (1)     8bytes   20bytes    1bytes
 
 
-mint a ERC721:
+mint a zkBRC721:
 operation  type       name       to         amount
-  (2)       (2)       8bytes   20bytes     1bytes
+  (2)       (2)       8bytes   20bytes      1bytes
 
 
 mint a User Specified:
@@ -234,27 +234,27 @@ operation    type       tokenAddress    user-specified data
 
 transfer a ERC20:
 operation    type     name      to             amount    signature
-  3          (1)     8bytes    20 bytes       32 bytes    64 bytes
+  (3)          (1)     8bytes    20 bytes       16 bytes    64 bytes
 
 
 transfer a ERC721:
-operation    type       name      to            tokenId    signature
-  3          (2)       8bytes    20 bytes       32 bytes    64 bytes
+operation    type       name       to            tokenId    signature
+  (3)          (2)       8bytes    20 bytes       16 bytes    64 bytes
 
 
 transfer a User Specified:
 operation    type      tokenAddress    user-specified data 
-  3          (3)        20 bytes         xxx
+  (3)          (3)        20 bytes         xxx
 
 
 burn a ERC20:
 operation    type     name      amount      signature
-  4          (1)     8bytes     32 bytes     64 bytes
+  4          (1)     8bytes     16 bytes     64 bytes
 
 
 burn a ERC721:
 operation    type       name      tokenId      signature
-  4          (2)       8bytes     32 bytes     64 bytes
+  4          (2)       8bytes     16 bytes     64 bytes
 
 
 burn a User Specified:
