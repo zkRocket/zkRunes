@@ -108,50 +108,87 @@ type      operation   tokenAddress  needVerifySignature  nonce   user-specified 
 ```
 
 ## 操作流程
-### Deploy
 ```mermaid
 sequenceDiagram
     participant zkRocket
     participant zkRunes
     participant ERC20Factory
     participant ERC721Factory
+    participant vault  
     participant UserSpecifiedToken
- 
+    
+    
     zkRocket ->> zkRunes: execute(addressA, adressB, userOption, amount, appData)
     zkRunes->>zkRunes: type = appData[0]
-    zkRunes->>zkRunes: operations = appData[1]
-    alt operation == deploy
-        alt tokenType == ERC20
+    zkRunes->>zkRunes: operations = appData[1] 
+   
+    Note over zkRunes, vault: 处理资金 
+    alt vaults[addressA] == true
+        zkRunes ->> vault: claim(addressA, addressB, userOption, amount)
+        zkRunes ->> zkRunes: addressA = 0, addressB =0. amount = 0
+    else vaults[addressA] == false && (type == zkBRC20 || type ==zkBRC721)
+        Note right of zkRunes: do nothing
+    else vaults[addressA] == false && (type == userDefined)
+        Note right of zkRunes: 稍后转给userDefinedContract 处理  
+    end 
+
+    Note over zkRunes, ERC20Factory: 处理zkBRC20  
+    alt type == zkBRC20
+        alt operation == deploy
             zkRunes->> ERC20Factory: tokenAddr = new ERC20(name, symbol, maxSupply, decimal)
             zkRunes ->> zkRunes: erc20Tokens[name] = tokenAddr
         
-        else tokenType == ERC721
+        else operation == mint
+            zkRunes->> zkRunes: erc20Tokens[name].mint(to, amount)
+          
+        else operation == transfer
+            zkRunes->> zkRunes: from = recoverSigner(appData[:x], appData[x:])
+            zkRunes->>zkRunes: nonce[from] ?= appData.nonce 
+            zkRunes ->> zkRunes: nonce[from] ++
+            zkRunes->> zkRunes: erc20Tokens[name].adminTransfer(from, to, amount)
+
+        else operation == burn
+            zkRunes->> zkRunes: from = recoverSigner(appData[:x], appData[x:])
+            zkRunes->>zkRunes: nonce[from] ?= appData.nonce 
+            zkRunes ->> zkRunes: nonce[from] ++
+            zkRunes->> zkRunes: erc20Tokens[name].adminBurn(from, amount)
+        end
+    
+    Note over zkRunes, ERC721Factory: 处理zkBRC721 
+    else type == zkBRC721
+        alt operations == deploy
             zkRunes->> ERC721Factory: tokenAddr = new ERC721(name, symbol, maxSupply, url)
             zkRunes ->> zkRunes: erc721Tokens[name]= tokenAddr
+        else operation == mint
+            zkRunes->> zkRunes: erc721Tokens[name].mint(to, amount)
 
-        else tokenType == userDefined
+        else operation == transfer
+            zkRunes->> zkRunes: from = recoverSigner(appData[:x], appData[x:])
+            zkRunes->>zkRunes: nonce[from] ?= appData.nonce 
+            zkRunes ->> zkRunes: nonce[from] ++
+            zkRunes->> zkRunes: erc721Tokens[name].adminTransfer(from, to, tokenId)
+
+        else operation == burn
+            zkRunes->> zkRunes: from = recoverSigner(appData[:x], appData[x:])
+            zkRunes->>zkRunes: nonce[from] ?= appData.nonce 
+            zkRunes ->> zkRunes: nonce[from] ++
+            zkRunes->> zkRunes: erc721Tokens[name].adminBurn(from, tokenId)
+        end    
+
+    Note over zkRunes, UserSpecifiedToken: 处理userDefined Application 
+    else type == userDefined
+        alt operations == deploy
           zkRunes ->> zkRunes:tokenAddr = appData[2:22]
           zkRunes ->> zkRunes: userTokens[tokenAddr] = true
           zkRunes ->> UserSpecifiedToken: IApplication(tokenAddr).execute(addressA, addressB, userOption, amount, appData)
-            
-        end
+        
+        else operation != deploy
+            zkRunes->> zkRunes: from = recoverSigner(appData[:x], appData[x:])
+            zkRunes->>zkRunes: nonce[from] ?= appData.nonce 
+            zkRunes ->> zkRunes: nonce[from] ++
+            zkRunes ->> UserSpecifiedToken: IApplication(tokenAddr).execute(addressA, addressB, userOption, amount, appData)
+        end    
+
     end
 ```
-
-
-
-
-### Mint
-
-<img width="508" height="698" alt="image" src="https://github.com/user-attachments/assets/c501a224-517d-4f18-aa68-fcc2b52f40b0" />
-
-### Transfer
-<img width="398" height="682" alt="image" src="https://github.com/user-attachments/assets/016a6262-92ba-4ed8-94f2-09bf338a3214" />
-
-
-### Burn
-<img width="423" height="685" alt="image" src="https://github.com/user-attachments/assets/17efb9b5-bd06-4172-93d4-ec9667c7ff60" />
-
-
-
 
