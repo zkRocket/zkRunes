@@ -58,18 +58,6 @@ len(value):     (3)         (!=1)         20             1                8     
 
 ```sh
 /* appData
-type:
-1 - zkBRC20Capped
-2 - zkBRC721Capped
-3 - User Specified
-
-operation:
-1- Deploy
-2- Mint
-3- Transfer
-4- Burn
-
-
 deploy a zkBRC20 Capped:
  type  operation    len(name)   name   len(symbol)   symbol    totalSupply   decimal maxInEachMint
   (1)      (1)         1           xx      1            xx        8 bytes        1       1    
