@@ -260,6 +260,9 @@ operation    type       name      tokenId      signature
 burn a User Specified:
 operation    type       tokenAddress     user-specified data 
 4            (3)         20 bytes           xxx bytes
+
+address => nonce
+
 */
 ```
 
