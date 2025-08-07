@@ -115,7 +115,7 @@ sequenceDiagram
     participant zkRunes
     participant ERC20Factory
  
-    zkRocket ->> zkRunes: execute(addressA, adressB, userOptions, appData)
+    zkRocket ->> zkRunes: execute(addressA, adressB, userOptions, amount, appData)
     zkRunes->>zkRunes: type = appData[0]
     zkRunes->>zkRunes: operations = appData[1]
     alt operation == deploy
@@ -128,7 +128,10 @@ sequenceDiagram
             zkRunes ->> zkRunes: erc721Tokens[name]= tokenAddr
 
         else tokenType == userDefined
-            zkRunes ->> zkRunes: userTokens[tokenAddr] = true
+          tokenAddr = appData[2:22]
+          zkRunes ->> zkRunes: userTokens[tokenAddr] = true
+          IApplication(tokenAddr).execute(addressA, adressB, userOptions, amount, appData)
+            
         end
     end
 ```
